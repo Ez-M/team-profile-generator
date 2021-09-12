@@ -1,8 +1,9 @@
+const fs = require('fs')
 const inquirer = require('inquirer');
 const Engineer = require('./roles');
 const Intern = require('./roles');
 const Manager = require('./roles');
-
+var numEmp = 0
 var empHolder = {
     name: "",
     id: "",
@@ -14,7 +15,7 @@ var empHolder = {
 
 
 
-function nameIdEmail() {
+function init() {
     inquirer
         .prompt([
             {
@@ -46,7 +47,7 @@ function nameIdEmail() {
             empHolder.email = response.email;
             switch (response.role) {
                 case "Manager":
-                    //call function for manager info
+                    queryManager()
                     break;
                 case "Intern":
                     //call function for manager info
@@ -59,3 +60,56 @@ function nameIdEmail() {
 
         );
 }
+
+
+
+function queryManager() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is this Manager's office number?",
+            name: 'officeNumber',
+        }
+    ])
+        .then((response) => {
+            empHolder.officeNumber = response.officeNumber
+            const current = new Manager(empHolder.name, empHolder.id, empHolder.email, empHolder.github)
+            fs.readFile('./output/output.json', 'utf8', (err, data) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    //convert string into JSON object
+                    const workingJson = JSON.parse(data);
+
+                    // adding current employee
+                    workingJson.push(current);
+
+                    // write updated reviews back to file
+                    fs.writeFile(
+                        './output/output.json',
+                        JSON.stringify(workingJson, null, 4),
+                        (writeErr) =>
+                            writeErr
+                                ? console.error(writeErr)
+                                : console.info('updated team roster!')
+                    );
+                }
+            });
+
+        })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+init()
