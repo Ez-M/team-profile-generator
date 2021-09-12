@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 const inquirer = require('inquirer');
 const Engineer = require('./roles');
 const Intern = require('./roles');
@@ -72,14 +72,15 @@ function queryManager() {
         }
     ])
         .then((response) => {
-            empHolder.officeNumber = response.officeNumber
-            const current = new Manager(empHolder.name, empHolder.id, empHolder.email, empHolder.github)
+            empHolder.officeNumber = response.officeNumber;
+            let current = new Manager(empHolder.name, empHolder.id, empHolder.email, empHolder.officeNumber);
+
             fs.readFile('./output/output.json', 'utf8', (err, data) => {
                 if (err) {
                     console.error(err);
                 } else {
                     //convert string into JSON object
-                    const workingJson = JSON.parse(data);
+                    var workingJson = JSON.parse(data);
 
                     // adding current employee
                     workingJson.push(current);
