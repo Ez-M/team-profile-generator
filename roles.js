@@ -28,7 +28,7 @@ class Intern extends Employee {
         this.school = school
 
     }
-    getSchool() { this.school }
+    getSchool() { return this.school }
 }
 class Manager extends Employee {
     constructor(name, id, email, officeNumber) {
@@ -36,7 +36,7 @@ class Manager extends Employee {
         this.officeNumber = officeNumber
 
     }
-    getOfficeNumber() { this.officeNumber }
+    getOfficeNumber() { return this.officeNumber }
 }
 
 module.exports = Employee

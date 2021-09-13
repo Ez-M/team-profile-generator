@@ -74,28 +74,8 @@ function queryManager() {
         .then((response) => {
             empHolder.officeNumber = response.officeNumber;
             let current = new Manager(empHolder.name, empHolder.id, empHolder.email, empHolder.officeNumber);
+            updateOut(current);
 
-            fs.readFile('./output/output.json', 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    //convert string into JSON object
-                    var workingJson = JSON.parse(data);
-
-                    // adding current employee
-                    workingJson.push(current);
-
-                    // write updated reviews back to file
-                    fs.writeFile(
-                        './output/output.json',
-                        JSON.stringify(workingJson, null, 4),
-                        (writeErr) =>
-                            writeErr
-                                ? console.error(writeErr)
-                                : console.info('updated team roster!')
-                    );
-                }
-            });
 
         })
 }
@@ -108,7 +88,29 @@ function queryManager() {
 
 
 
+function updateOut(current) {
+    fs.readFile('./output/output.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            //convert string into JSON object
+            var workingJson = JSON.parse(data);
 
+            // adding current employee
+            workingJson.push(current);
+
+            // write updated reviews back to file
+            fs.writeFile(
+                './output/output.json',
+                JSON.stringify(workingJson, null, 4),
+                (writeErr) =>
+                    writeErr
+                        ? console.error(writeErr)
+                        : console.info('updated team roster!')
+            );
+        }
+    });
+}
 
 
 
