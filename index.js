@@ -63,7 +63,7 @@ function init() {
 }
 
 
-
+//each of these three functions 
 function queryManager() {
     inquirer.prompt([
         {
@@ -93,7 +93,7 @@ function queryIntern() {
         }
     ])
         .then((response) => {
-            empHolder.officeNumber = response.officeNumber;
+            empHolder.school = response.school;
             let current = new Intern(empHolder.name, empHolder.id, empHolder.email, empHolder.school);
             arrayHolder.push(current);
             console.log(arrayHolder);
@@ -113,7 +113,7 @@ function queryEngineer() {
         }
     ])
         .then((response) => {
-            empHolder.officeNumber = response.officeNumber;
+            empHolder.github = response.github;
             let current = new Engineer(empHolder.name, empHolder.id, empHolder.email, empHolder.github);
             arrayHolder.push(current);
             console.log(arrayHolder);
@@ -142,10 +142,8 @@ function updateOut(current) {
             workingJson.push(current);
 
             // write updated reviews back to file
-            fs.writeFile(
-                './output/output.json',
-                JSON.stringify(workingJson, null, 4),
-                (writeErr) =>
+            fs.writeFile(`./output/output.json`, JSON.stringify(workingJson, null, 4),
+                (writeErr) => 
                     writeErr
                         ? console.error(writeErr)
                         : console.info('updated team roster!')
@@ -155,7 +153,7 @@ function updateOut(current) {
 }
 
 
-
+//prompts the user if they'd like to add an additional member to the team
 function con() {
     inquirer.prompt([
         {
@@ -173,7 +171,7 @@ function con() {
         })
 }
 
-
+//Called to take team name and use it for file names
 function finish() {
     inquirer.prompt([
         {
@@ -181,9 +179,16 @@ function finish() {
             message: "What is your team's name?",
             name: "teamName"
         }
-    ])
+    ])//verifies team name is entered else loops finish again
         .then((response) => {
-            if (response.teamName) { }
+            if (response.teamName) {
+                fs.writeFile(`./output/${response.teamName}.json`, JSON.stringify(arrayHolder, null, 4),
+                (writeErr) => 
+                    writeErr
+                        ? console.error(writeErr)
+                        : console.info('updated team roster!')
+            );
+            }
             else {
                 console.log("Team name is required!")
                 finish()
