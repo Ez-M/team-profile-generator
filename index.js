@@ -143,7 +143,7 @@ function updateOut(current) {
 
             // write updated reviews back to file
             fs.writeFile(`./output/output.json`, JSON.stringify(workingJson, null, 4),
-                (writeErr) => 
+                (writeErr) =>
                     writeErr
                         ? console.error(writeErr)
                         : console.info('updated team roster!')
@@ -182,12 +182,12 @@ function finish() {
     ])//verifies team name is entered else loops finish again
         .then((response) => {
             if (response.teamName) {
-                fs.writeFile(`./output/${response.teamName}.json`, JSON.stringify(arrayHolder, null, 4),
-                (writeErr) => 
-                    writeErr
-                        ? console.error(writeErr)
-                        : console.info('updated team roster!')
-            );
+                fs.writeFile(`./output/output.json`, JSON.stringify(arrayHolder, null, 4),
+                    (writeErr) =>
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('updated team roster!')
+                );
             }
             else {
                 console.log("Team name is required!")

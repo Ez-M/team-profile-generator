@@ -8,7 +8,7 @@ class Employee {
     getName() { return this.name }
     getId() { return this.id }
     getEmail() { return this.email }
-    getRole() { return this }
+
 }
 
 
@@ -19,6 +19,7 @@ class Engineer extends Employee {
         this.role = "Engineer";
 
     }
+    getRole() { return this.role }
     getGithub() { return this.github }
 
 }
@@ -30,6 +31,7 @@ class Intern extends Employee {
         this.role = "Intern";
     }
     getSchool() { return this.school }
+    getRole() { return this.role }
 }
 class Manager extends Employee {
     constructor(name, id, email, officeNumber) {
@@ -39,6 +41,7 @@ class Manager extends Employee {
 
     }
     getOfficeNumber() { return this.officeNumber }
+    getRole() { return this.role }
 }
 
 module.exports = Employee
