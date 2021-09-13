@@ -1,9 +1,11 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const { finished } = require('stream');
 const Engineer = require('./roles');
 const Intern = require('./roles');
 const Manager = require('./roles');
 var numEmp = 0
+var arrayHolder = []
 var empHolder = {
     name: "",
     id: "",
@@ -50,10 +52,10 @@ function init() {
                     queryManager()
                     break;
                 case "Intern":
-                    //call function for manager info
+                    queryIntern()
                     break;
                 case "Engineer":
-                    //call function for manager info
+                    queryEngineer()
                     break;
             }
         }
@@ -74,13 +76,54 @@ function queryManager() {
         .then((response) => {
             empHolder.officeNumber = response.officeNumber;
             let current = new Manager(empHolder.name, empHolder.id, empHolder.email, empHolder.officeNumber);
-            updateOut(current);
+            arrayHolder.push(current);
+            console.log(arrayHolder);
+            con()
+            // updateOut(current);
 
 
         })
 }
 
+function queryIntern() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is this Intern's school?",
+            name: 'school',
+        }
+    ])
+        .then((response) => {
+            empHolder.officeNumber = response.officeNumber;
+            let current = new Intern(empHolder.name, empHolder.id, empHolder.email, empHolder.school);
+            arrayHolder.push(current);
+            console.log(arrayHolder);
+            con()
+            // updateOut(current);
 
+
+        })
+}
+
+function queryEngineer() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is this Engineer's github username?",
+            name: 'github',
+        }
+    ])
+        .then((response) => {
+            empHolder.officeNumber = response.officeNumber;
+            let current = new Engineer(empHolder.name, empHolder.id, empHolder.email, empHolder.github);
+            arrayHolder.push(current);
+            console.log(arrayHolder);
+            con()
+            // updateOut(current);
+
+
+        })
+}
 
 
 
@@ -114,5 +157,25 @@ function updateOut(current) {
 
 
 
+function con() {
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: "Would you like to add another member to the team?",
+            name: 'continue',
+            choices: ["Yes, I'd like to add another character", "No, finalize my team!"]
+        }
+    ])
+        .then((response) => {
+            if (response.continue == "Yes, I'd like to add another character") {
+                init()
+            } else { finish()}
 
+        })
+}
+
+
+function finish() {
+    return
+}
 init()
