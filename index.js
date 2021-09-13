@@ -1,6 +1,5 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { finished } = require('stream');
 const Engineer = require('./roles');
 const Intern = require('./roles');
 const Manager = require('./roles');
@@ -169,13 +168,28 @@ function con() {
         .then((response) => {
             if (response.continue == "Yes, I'd like to add another character") {
                 init()
-            } else { finish()}
+            } else { finish() }
 
         })
 }
 
 
 function finish() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is your team's name?",
+            name: "teamName"
+        }
+    ])
+        .then((response) => {
+            if (response.teamName) { }
+            else {
+                console.log("Team name is required!")
+                finish()
+            }
+
+        })
     return
 }
 init()
