@@ -5,9 +5,13 @@
     
     ## Installation Instructions
     Simply download the files, and run npm install in its home directory
+	https://github.com/Ez-M/team-profile-generator (repo)
+	https://ez-m.github.io/team-profile-generator/output/output.html  (example of output site)
     
     ## Usage Information
     once you've run npm install, run node index.js and follow the onscreen prompts. Your final files will be located in the "output" folder and can be copied out of it. 
+
+
 
     ## Credits
     
