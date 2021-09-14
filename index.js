@@ -1,8 +1,11 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const Engineer = require('./roles');
-const Intern = require('./roles');
-const Manager = require('./roles');
+const {htmlTempFirst} = require('./writeOut');
+const {htmlTempLast} = require('./writeOut');
+// const role = require('./roles');
+const {Engineer} = require('./roles');
+const {Intern} = require('./roles');
+const {Manager} = require('./roles');
 var numEmp = 0
 var arrayHolder = []
 var empHolder = {
@@ -129,7 +132,7 @@ function queryEngineer() {
 
 
 
-
+// depricated, used currently for reference
 function updateOut(current) {
     fs.readFile('./output/output.json', 'utf8', (err, data) => {
         if (err) {
@@ -182,12 +185,33 @@ function finish() {
     ])//verifies team name is entered else loops finish again
         .then((response) => {
             if (response.teamName) {
-                fs.writeFile(`./output/output.json`, JSON.stringify(arrayHolder, null, 4),
-                    (writeErr) =>
-                        writeErr
-                            ? console.error(writeErr)
-                            : console.info('updated team roster!')
-                );
+                fs.writeFile(`./output/output.html`, htmlTempFirst,
+                (writeErr) =>
+                    writeErr
+                        ? console.error(writeErr)
+                        : console.info('updated team roster!')
+            );
+            arrayHolder.forEach(item => {
+                fs.appendFile(`./output/output.html`, `
+                <div class="card col-3">
+                <div class="col-12 bg-primary">Name</div>
+                <div class="col-12">${item.role} ${item.id}</div>
+                <div class="col-12">${item.email}</div>
+                <div class="col-12">${item.github}${item.officeNumber}${item.school}</div>
+                </div>`,
+                (writeErr) =>
+                    writeErr
+                        ? console.error(writeErr)
+                        : console.info('Filling out roster...') )
+                
+});
+            fs.appendFile(`./output/output.html`, htmlTempLast,
+            (writeErr) =>
+                writeErr
+                    ? console.error(writeErr)
+                    : console.info('updated team roster!')
+        );
+                // writeOut.finalOut(response)
             }
             else {
                 console.log("Team name is required!")

@@ -3,6 +3,9 @@ class Employee {
         this.name = name;
         this.id = id;
         this.email = email;
+        this.officeNumber = "";
+        this.github = "";
+        this.school = "";
     }
 
     getName() { return this.name }
@@ -44,7 +47,7 @@ class Manager extends Employee {
     getRole() { return this.role }
 }
 
-module.exports = Employee
-module.exports = Engineer
-module.exports = Intern
-module.exports = Manager
+module.exports.Employee = Employee
+module.exports.Engineer = Engineer
+module.exports.Intern = Intern
+module.exports.Manager = Manager
