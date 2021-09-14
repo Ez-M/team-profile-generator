@@ -23,7 +23,7 @@ const htmlTempFirst = `
 
     <div class="mainDiv fluid-container">
 
-        <div class="row">+`
+        <div class="row">`
 
 const htmlTempLast = `
 
@@ -38,8 +38,7 @@ const htmlTempLast = `
 
 
 
-    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <script src="./output.js"></script>
+
 </body>
 
 </html>

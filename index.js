@@ -2,7 +2,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const { htmlTempFirst } = require('./writeOut');
 const { htmlTempLast } = require('./writeOut');
-const {htmlTempSecond} = require('./writeOut');
+const { htmlTempSecond } = require('./writeOut');
 // const role = require('./roles');
 const { Engineer } = require('./roles');
 const { Intern } = require('./roles');
@@ -193,41 +193,49 @@ function finish() {
                             ? console.error(writeErr)
                             : console.info('updated team roster!')
                 );
+
                 fs.appendFile(`./output/output.html`, response.teamName,
                     (writeErr) =>
                         writeErr
                             ? console.error(writeErr)
                             : console.info('updated team roster!')
-                );
-                fs.appendFile(`./output/output.html`, htmlTempSecond,
-                (writeErr) =>
-                    writeErr
-                        ? console.error(writeErr)
-                        : console.info('updated team roster!')
-            );
-                
-                arrayHolder.forEach(item => {
-                    if(item.github.length>0){tempGit =`<a href ="${item.github}">${item.github}</a>` } else {tempGit = ""}
+                )
 
-                    fs.appendFile(`./output/output.html`, `
+                setTimeout(function () {
+                    fs.appendFile(`./output/output.html`, htmlTempSecond,
+                        (writeErr) =>
+                            writeErr
+                                ? console.error(writeErr)
+                                : console.info('updated team roster!')
+                    );
+                }, 100)
+
+                setTimeout(function () {
+                    arrayHolder.forEach(item => {
+                        if (item.github.length > 0) { tempGit = `<a href ="${item.github}">${item.github}</a>` } else { tempGit = "" }
+
+                        fs.appendFile(`./output/output.html`, `
                 <div class="card col-3">
-                <div class="col-12 bg-primary">Name</div>
+                <div class="col-12 bg-primary">${item.name}</div>
                 <div class="col-12">${item.role} ${item.id}</div>
                 <div class="col-12"><a href ="mailto:${item.email}">${item.email}</a></div>
                 <div class="col-12">${tempGit}${item.officeNumber}${item.school}</div>
                 </div>`,
+                            (writeErr) =>
+                                writeErr
+                                    ? console.error(writeErr)
+                                    : console.info('Filling out roster...'))
+
+                    });
+                }, 100)
+                setTimeout(function () {
+                    fs.appendFile(`./output/output.html`, htmlTempLast,
                         (writeErr) =>
                             writeErr
                                 ? console.error(writeErr)
-                                : console.info('Filling out roster...'))
-
-                });
-                fs.appendFile(`./output/output.html`, htmlTempLast,
-                    (writeErr) =>
-                        writeErr
-                            ? console.error(writeErr)
-                            : console.info('updated team roster!')
-                );
+                                : console.info('updated team roster!')
+                    );
+                }, 300)
                 // writeOut.finalOut(response)
             }
             else {
