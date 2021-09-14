@@ -1,11 +1,13 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const {htmlTempFirst} = require('./writeOut');
-const {htmlTempLast} = require('./writeOut');
+const { htmlTempFirst } = require('./writeOut');
+const { htmlTempLast } = require('./writeOut');
+const {htmlTempSecond} = require('./writeOut');
 // const role = require('./roles');
-const {Engineer} = require('./roles');
-const {Intern} = require('./roles');
-const {Manager} = require('./roles');
+const { Engineer } = require('./roles');
+const { Intern } = require('./roles');
+const { Manager } = require('./roles');
+var tempGit = ""
 var numEmp = 0
 var arrayHolder = []
 var empHolder = {
@@ -186,31 +188,46 @@ function finish() {
         .then((response) => {
             if (response.teamName) {
                 fs.writeFile(`./output/output.html`, htmlTempFirst,
+                    (writeErr) =>
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('updated team roster!')
+                );
+                fs.appendFile(`./output/output.html`, response.teamName,
+                    (writeErr) =>
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('updated team roster!')
+                );
+                fs.appendFile(`./output/output.html`, htmlTempSecond,
                 (writeErr) =>
                     writeErr
                         ? console.error(writeErr)
                         : console.info('updated team roster!')
             );
-            arrayHolder.forEach(item => {
-                fs.appendFile(`./output/output.html`, `
+                
+                arrayHolder.forEach(item => {
+                    if(item.github.length>0){tempGit =`<a href ="${item.github}">${item.github}</a>` } else {tempGit = ""}
+
+                    fs.appendFile(`./output/output.html`, `
                 <div class="card col-3">
                 <div class="col-12 bg-primary">Name</div>
                 <div class="col-12">${item.role} ${item.id}</div>
-                <div class="col-12">${item.email}</div>
-                <div class="col-12">${item.github}${item.officeNumber}${item.school}</div>
+                <div class="col-12"><a href ="mailto:${item.email}">${item.email}</a></div>
+                <div class="col-12">${tempGit}${item.officeNumber}${item.school}</div>
                 </div>`,
-                (writeErr) =>
-                    writeErr
-                        ? console.error(writeErr)
-                        : console.info('Filling out roster...') )
-                
-});
-            fs.appendFile(`./output/output.html`, htmlTempLast,
-            (writeErr) =>
-                writeErr
-                    ? console.error(writeErr)
-                    : console.info('updated team roster!')
-        );
+                        (writeErr) =>
+                            writeErr
+                                ? console.error(writeErr)
+                                : console.info('Filling out roster...'))
+
+                });
+                fs.appendFile(`./output/output.html`, htmlTempLast,
+                    (writeErr) =>
+                        writeErr
+                            ? console.error(writeErr)
+                            : console.info('updated team roster!')
+                );
                 // writeOut.finalOut(response)
             }
             else {

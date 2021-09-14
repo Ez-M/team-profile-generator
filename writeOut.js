@@ -15,12 +15,15 @@ const htmlTempFirst = `
 
 <body>
 
-    <header class="col-12 bg-secondary">`+ "${response.teamName}" + ` </header>
+    <header class="col-12 bg-secondary">`
+    
+    
+    const htmlTempSecond = `</header>
 
 
     <div class="mainDiv fluid-container">
 
-        <div class="row">`
+        <div class="row">+`
 
 const htmlTempLast = `
 
@@ -48,4 +51,5 @@ const htmlTempLast = `
 
 
 module.exports.htmlTempFirst = htmlTempFirst;
+module.exports.htmlTempSecond = htmlTempSecond;
 module.exports.htmlTempLast = htmlTempLast;
